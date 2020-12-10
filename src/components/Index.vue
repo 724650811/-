@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div >
         <!-- 底部选项卡 -->
-        <mt-tabbar v-model="selectTab">
+        <mt-tabbar v-model="selectTab" fixed>
             <mt-tab-item id="index">
                 首页
                 <img src="../assets/img/1.png" slot="icon" v-if="selectTab=='index'">
