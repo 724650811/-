@@ -8,7 +8,7 @@ import moment from 'moment'
 import qs from 'qs'
 
 
-axios.defaults.baseURL='';
+axios.defaults.baseURL='http://127.0.0.1:3000';
 // 通过Vue.use()方法将mintUI注册为插件
 Vue.use(MinUI);
 

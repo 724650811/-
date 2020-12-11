@@ -3,24 +3,9 @@
         <!-- 轮播图 -->
         <div class="carousel">
             <mt-swipe :show-indicators="false" class="mint-swipe">
-                <mt-swipe-item>
+                <mt-swipe-item v-for="(a,i) of str1" :key="i">
                     <router-link to="tt">
-                    <img src="../assets/img/carousel/1.jpg" class="h">
-                    </router-link>
-                </mt-swipe-item>
-                <mt-swipe-item>
-                    <router-link to="tt">
-                    <img src="../assets/img/carousel/2.jpg" class="h">
-                    </router-link>
-                </mt-swipe-item>
-                <mt-swipe-item>
-                    <router-link to="tt">
-                    <img src="../assets/img/carousel/3.jpg" class="h">
-                    </router-link>
-                </mt-swipe-item>
-                <mt-swipe-item>
-                    <router-link to="tt">
-                    <img src="../assets/img/carousel/4.jpg" class="h">
+                    <img :src='a.img' class="h">
                     </router-link>
                 </mt-swipe-item>
             </mt-swipe>
@@ -73,14 +58,8 @@
         <div class="titel">
             <p>新鲜事</p>
             <mt-swipe :auto="0">
-             <mt-swipe-item>
-                 <img src="../assets/img/orders/1.jpg" class="h">
-             </mt-swipe-item>
-             <mt-swipe-item>
-                 <img src="../assets/img/orders/4.jpg" class="h">
-             </mt-swipe-item>
-             <mt-swipe-item>
-                 <img src="../assets/img/orders/5.jpg" class="h">
+             <mt-swipe-item v-for="(s,i) of str2" :key="i">
+                 <img :src="s.img" class="h">
              </mt-swipe-item>
             </mt-swipe>
         </div>
@@ -91,17 +70,17 @@
              <!-- <router-link to="ww">更多</router-link>  -->
             </div>
             <div class="list-item">
-                <div>
+                <div v-for="(t,i) of str" :key="i">
                   <router-link to="aa">
                     <div>
-                        <img src="../assets/img/carousel/4.jpg" width="100%">
+                        <img :src='t.img' width="100%">
                     </div>
                     <div>
                         <span class="s">潮品自营</span>
-                        <p class="p">麦丽素520g/桶</p>
-                        <span style="color:#f00">¥48</span>
-                        <s style="font-size:10px;color:#888">¥68</s>
-                        <p style="font-size:10px;color:#888">以售卖19200+件</p>
+                        <p class="p">{{t.title}}</p>
+                        <span style="color:#f00">¥{{t.price}}</span>
+                        <s style="font-size:10px;color:#888">¥{{t.oldprice}}</s>
+                        <p style="font-size:10px;color:#888">以售卖{{t.count}}件</p>
                     </div>
                   </router-link>
                 </div>
@@ -114,16 +93,56 @@
 export default {
    data(){
        return {
-           str:{}
+            str:[],
+            str1:[],
+            str2:[]
        }
    },
-   mounted:{
-       
+   mounted(){
+    //    发送请求，获取商品列表
+       this.axios.get('/index').then((res)=>{
+        //    console.log(res.data);
+           let list=res.data.results;
+           
+            list.forEach(t=>{
+                t.img=require('../assets/img/sm/'+t.img);
+            })
+            this.str=list;
+            console.log(this.str)
+        })
+
+
+
+        this.axios.get('/carousel').then((res)=>{
+        //    console.log(res.data);
+           let list=res.data.results;
+           
+            list.forEach(t=>{
+                t.img=require('../assets/img/carousel/'+t.img);
+            })
+            this.str1=list;
+            console.log(this.str1)
+        })
+
+
+
+
+        this.axios.get('/carousels').then((res)=>{
+        //    console.log(res.data);
+           let list=res.data.results;
+           
+            list.forEach(t=>{
+                t.img=require('../assets/img/orders/'+t.img);
+            })
+            this.str2=list;
+            console.log(this.str2)
+        })
    }
+ 
 }
 </script>
 
-<style scoped>
+<style >
 .p{
     color: #000;
     font-size: 15px;
